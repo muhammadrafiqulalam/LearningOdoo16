@@ -99,7 +99,7 @@
             <field name="model">my.test</field>
             <field name="arch" type="xml">
                 <form string="Task Manager">
-                    <sheet>
+                    <sheet>    
                         <group>
                             <field name="name"/>
                             <field name="description"/>
@@ -113,7 +113,8 @@
                         <group>
                                <field name="task_day_price"/>
                                <field name="currency_id"/>
-                               <field name="task_duration_req"/>  
+                               <field name="task_remaining_days"/>  
+                               <field name="task_total_price"/>
                         </group>
                         <group>
                                <field name="bd_id"/>
