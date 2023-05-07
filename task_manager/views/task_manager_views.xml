@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <!-- Search View -->
+        <record id="task_manager_search_view" model="ir.ui.view">
+            <field name="name">task.manager.search</field>
+            <field name="model">task.manager</field>
+            <field name="arch" type="xml">
+                <search string="Task Manager">
+                    <field name="name"/>
+                    <field name="designation"/>
+                    <field name="department"/>
+                    <field name="deadline_date"/>
+                    <field name="assigned_to_id"/>
+                    <field name="status"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Department" name="department" context="{'group_by':'department'}"/>
+                        <filter string="Designation" name="designation" context="{'group_by':'designation'}"/>
+                        <filter string="Status" name="status" context="{'group_by':'status'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="status"/>s
+                        <field name="department"/>
+                        <field name="designation"/>
+                    </searchpanel>    
+                </search>
+            </field>
+        </record>    
+        <!-- Kanban View -->
+        <record id="task_manager_kanban_view" model="ir.ui.view">
+            <field name="name">task.manager.kanban</field>
+            <field name="model">task.manager</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban" string="Task Manager">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="designation"/>
+                    <field name="department"/>
+                    <field name="deadline_date"/>
+                    <field name="assigned_to_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_content oe_kanban_global_click">
+                                <!-- <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('res_users', 'photo', record.id.raw_value)"/>
+                                </div> -->
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <ul>
+                                        <li><field name="description"/></li>
+                                        <li><field name="deadline_date"/></li>
+                                        <li><field name="assigned_to_id"/></li>
+                                    </ul>
+                                    <strong class="o_kanban_record_title">   
+                                        <li><field name="status"/></li>
+                                    </strong>
+                                </div>
+
+                                <div class="oe_kanban_content o_hr_employee_kanban_bottom position-absolute bottom-0 start-0 end-0 me-2 pe-none">
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left"/>
+                                        <div class="oe_kanban_bottom_right float-end pe-auto">
+                                                <div class="hr_activity_container mb-1 me-n1">
+                                                    <field name="activity_ids" widget="kanban_activity"/>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>    
+
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="task_manager_tree_view" model="ir.ui.view">
+            <field name="name">task.manager.tree</field>
+            <field name="model">task.manager</field>
+            <field name="arch" type="xml">
+               <tree string="Task Manager" decoration-bf="deadline_date&gt;current_date">
+                    <field name="name"/>
+                    <field name="designation"/>
+                    <field name="department"/>
+                    <field name="deadline_date"/>
+                    <field name="assigned_to_id"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>    
+    
+        <!-- Form View -->
+        <record id="task_manager_form_view" model="ir.ui.view">
+            <field name="name">task.manager.form</field>
+            <field name="model">task.manager</field>
+            <field name="arch" type="xml">
+                <form string="Task Manager">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="priority"/>
+                            <field name="department"/>
+                            <field name="designation"/>    
+                            <field name="deadline_date"/>
+                            <field name="assigned_to_id"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                               <field name="task_day_price"/>
+                               <field name="currency_id"/>
+                               <field name="task_duration_req"/>  
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" options="{'post_refresh': 'recipients'}"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Action -->
+        <record id = "action_task_manager" model = "ir.actions.act_window">
+            <field name = "name">Task Manager</field>
+            <field name = "res_model">task.manager</field>
+            <field name = "view_mode">kanban,tree,form</field>
+            <field name = "help" type = "html">
+                <p class = "oe_view_nocontent_create">
+                    Click to create a new task manager
+                </p>
+            </field>
+        </record>      
+
+        <!-- Action -->
+        <record id = "action_my_test" model = "ir.actions.act_window">
+            <field name = "name">My Test</field>
+            <field name = "res_model">my.test</field>
+            <field name = "view_mode">kanban,tree,form</field>
+            <field name = "help" type = "html">
+                <p class = "oe_view_nocontent_create">
+                    Click to create a new task manager
+                </p>
+            </field>
+        </record>      
+
+
+        <!-- Menuitem -->
+        <menuitem id = "menu_task_manager_root" 
+            name = "Task Manager"  
+            sequence = "7"/>
+            <menuitem id = "menu_task_manager_menu" 
+                name = "Menu" 
+                parent="menu_task_manager_root"
+                sequence = "0"/>
+            <menuitem id = "menu_task_manager_employee" 
+                name = "Employee" 
+                parent="menu_task_manager_root"
+                action = "hr.open_view_employee_list_my" 
+                sequence = "1"/>  
+            <menuitem id = "menu_task_manager_reporting" 
+                name = "Reporting" 
+                parent="menu_task_manager_root"
+                sequence = "2"/>  
+            <menuitem id = "menu_my_test" 
+                name = "My Test" 
+                parent="menu_task_manager_root"
+                action = "action_my_test" 
+                sequence = "3"/>  
+        <menuitem id = "menu_task_manager" 
+            name = "Task Manager" 
+            action = "action_task_manager" 
+            parent = "menu_task_manager_menu"
+            sequence = "1"/>            
+        <menuitem id = "menu_designation" 
+            name = "Designation Entry" 
+            action = "hr.action_hr_job" 
+            parent = "menu_task_manager_menu"
+            sequence = "2"/>
+         <menuitem id = "menu_department" 
+            name = "Department Entry" 
+            parent = "menu_task_manager_menu"
+            action = "hr.hr_department_tree_action" 
+            sequence = "3"/> 
+        
+
+
+
+    </data>
+
+</odoo>

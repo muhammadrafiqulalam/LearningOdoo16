@@ -1,0 +1,134 @@
+<odoo>
+    <data>
+
+        <!-- Search View -->
+        <record id="my_test_search_view" model="ir.ui.view">
+            <field name="name">my.test.search</field>
+            <field name="model">my.test</field>
+            <field name="arch" type="xml">
+                <search string="Task Manager">
+                    <field name="name"/>
+                    <field name="designation"/>
+                    <field name="department"/>
+                    <field name="deadline_date"/>
+                    <field name="assigned_to_id"/>
+                    <field name="status"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Department" name="department" context="{'group_by':'department'}"/>
+                        <filter string="Designation" name="designation" context="{'group_by':'designation'}"/>
+                        <filter string="Status" name="status" context="{'group_by':'status'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="status"/>s
+                        <field name="department"/>
+                        <field name="designation"/>
+                    </searchpanel>    
+                </search>
+            </field>
+        </record>    
+        <!-- Kanban View -->
+        <record id="my_test_kanban_view" model="ir.ui.view">
+            <field name="name">my.test.kanban</field>
+            <field name="model">my.test</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban" string="Task Manager">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="designation"/>
+                    <field name="department"/>
+                    <field name="deadline_date"/>
+                    <field name="assigned_to_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_content oe_kanban_global_click">
+                                <!-- <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('res_users', 'photo', record.id.raw_value)"/>
+                                </div> -->
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <ul>
+                                        <li><field name="description"/></li>
+                                        <li><field name="deadline_date"/></li>
+                                        <li><field name="assigned_to_id"/></li>
+                                    </ul>
+                                    <strong class="o_kanban_record_title">   
+                                        <li><field name="status"/></li>
+                                    </strong>
+                                </div>
+
+                                <div class="oe_kanban_content o_hr_employee_kanban_bottom position-absolute bottom-0 start-0 end-0 me-2 pe-none">
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left"/>
+                                        <div class="oe_kanban_bottom_right float-end pe-auto">
+                                                <div class="hr_activity_container mb-1 me-n1">
+                                                    <field name="activity_ids" widget="kanban_activity"/>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>    
+
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="my_test_tree_view" model="ir.ui.view">
+            <field name="name">my.test.tree</field>
+            <field name="model">my.test</field>
+            <field name="arch" type="xml">
+               <tree string="Task Manager" decoration-bf="deadline_date&gt;current_date">
+                    <field name="name"/>
+                    <field name="designation"/>
+                    <field name="department"/>
+                    <field name="deadline_date"/>
+                    <field name="assigned_to_id"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>    
+    
+        <!-- Form View -->
+        <record id="my_test_form_view" model="ir.ui.view">
+            <field name="name">my.test.form</field>
+            <field name="model">my.test</field>
+            <field name="arch" type="xml">
+                <form string="Task Manager">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="priority"/>
+                            <field name="department"/>
+                            <field name="designation"/>    
+                            <field name="deadline_date"/>
+                            <field name="assigned_to_id"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                               <field name="task_day_price"/>
+                               <field name="currency_id"/>
+                               <field name="task_duration_req"/>  
+                        </group>
+                        <group>
+                               <field name="bd_id"/>
+                               <field name="mytest_name"/>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" options="{'post_refresh': 'recipients'}"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
