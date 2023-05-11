@@ -10,7 +10,7 @@ Something about the App.
     'version': '16.0.1.0',
     'author': 'Daffodil',
     'website': 'http://www.daffodil.com',
-    'category': '',
+    'category': 'Human Resources',
     'sequence': 1,
     'depends': [
         'base',
@@ -23,9 +23,12 @@ Something about the App.
     
         # Security
         'security/ir.model.access.csv',
+        'security/task_manager_security.xml',
+        
          # ## View
         'views/task_manager_views.xml',
         'views/my_test_view.xml',
+        'views/employee_task_view.xml',
     ],
     'qweb': [],
     'assets': {},

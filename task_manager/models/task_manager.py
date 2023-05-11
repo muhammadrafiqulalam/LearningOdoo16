@@ -24,7 +24,6 @@ class TaskManager(models.Model):
     task_remaining_days = fields.Float(string='Task Remaining Days',compute='_compute_r_days',store=False)
     task_total_price = fields.Float(string='Task Total price',compute='_compute_t_total_price',store=False)
    
-    # task_duration_req = fields.Float(string='Task Required Duration',compute='_compute_r_days',inverse='_inverse_r_days',search='_search_r_days',store=False)
     
     @api.depends('deadline_date')
     
@@ -43,30 +42,6 @@ class TaskManager(models.Model):
             total_price = b.task_day_price * b.task_remaining_days
             b.task_total_price = total_price
 
-
-
-
-    #     def _inverse_r_days(self):
-    #         today = fields.Date.today()
-    #         for book in self.filtered('date_release'):
-    #             d = today - timedelta(days=book.age_days)
-    #             book.date_release = d
-
-    #     def _search_r_days(self, operator, value):
-    #             today = fields.Date.today()
-    #             value_days = timedelta(days=value)
-    #             value_date = today - value_days
-    #             # convert the operator:
-    #             # book with age > value have a date < value_date
-    #             operator_map = {
-    #                             '>': '<', '>=': '<=',
-    #                             '<': '>', '<=': '>=',
-    #                             }
-    #             new_op = operator_map.get(operator, operator)
-    #         return [('date_release', new_op, value_date)]    
-
-
-
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -83,4 +58,22 @@ class MyTest(models.Model):
     bd_id = fields.Char('BD ID', required=True)
 
 
+class EmployeeTask(models.Model):
+    _name = 'employee.task'
+    _inherit = 'task.manager'
 
+    show_load = fields.Float(string='Show Load' ,compute='_compute_show_load',store=False)
+
+    @api.depends('status')
+
+    def _compute_show_load(self):
+        for book in self:
+            if book.status:
+                if book.status == 'new':
+                    book.show_load = 0.0
+                elif book.status == 'in_progress':
+                    book.show_load = 0.5
+                elif book.status == 'done':
+                    book.show_load = 1.0
+            else:
+                book.show_load = 0.0
